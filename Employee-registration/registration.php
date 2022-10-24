@@ -33,10 +33,12 @@ if(isset($_POST['register'])){
     
     // below code insert data into employee table
     
-        $sql = "insert into employee(first_name, contact_no, email, last_name, owner) values ('$first_name', '$contact_no' ,'$email' ,'$last_name','$loggedInUser')";
-        if(mysqli_query($conn, $sql)){
-            $successMsg = 'Added new employee.';
-        }
+    $sql = "insert into employee(first_name, contact_no, email, last_name, owner) values ('$first_name', '$contact_no' ,'$email' ,'$last_name','$loggedInUser')";
+    if(mysqli_query($conn, $sql)){
+        $successMsg = 'Added new employee.';
+        header("refresh:0;url=./display.php");
+        die();
+    }
     
 
 }

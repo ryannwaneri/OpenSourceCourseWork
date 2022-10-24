@@ -4,6 +4,11 @@ include_once('connect.php');
 
 $error = false;
 
+if (isset($_SESSION['authenticate'])) {
+    header("refresh:0;url=./display.php");
+    die();
+}
+
 //get user inputs and sanitize
 
 if(isset($_POST['login'])){

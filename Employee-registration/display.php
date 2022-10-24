@@ -8,7 +8,13 @@
         header("refresh:3;url=./index.php");
         die();
     }
-$loggedInUser = $_SESSION['username']
+    $loggedInUser = $_SESSION['username'];
+    $msg = "";
+
+    if(isset($_SESSION["successful_delete"]) && $_SESSION["successful_delete"] == true) {
+      $msg = "Successful deletion";
+      unset($_SESSION["successful_delete"]);
+    }
 
 ?>
 <!DOCTYPE html>
@@ -43,7 +49,8 @@ $loggedInUser = $_SESSION['username']
        $result = $conn-> query ($sql);
        if ($result-> num_rows > 0) {
     	   while ($row = $result -> fetch_assoc()) {
-    		echo "<tr><td>".$row["emp_id"]."</td><td>". $row["first_name"]."</td><td>".$row["last_name"]."</td><td>".$row["email"]."</td><td>".$row["contact_no"]."</td></tr>";
+    		echo "<tr><td>".$row["emp_id"]."</td><td>". $row["first_name"]."</td><td>".$row["last_name"]."</td><td>".$row["email"]."</td><td>".$row["contact_no"]."</td>
+          <td><form action='remove.php' method='POST'><input type='hidden' name='id' value='".$row["emp_id"]."'><button class='delete' type='submit'>Delete</button></form></td></tr>";
     	   }
     	   echo "</table>";
        }else{
@@ -52,13 +59,15 @@ $loggedInUser = $_SESSION['username']
        $conn->close();
        ?>
 </table>
-      
+<?php if($msg): ?>
+  <p style='font-size: 20px; margin-top: 30px; color: red;'><?php echo $msg; ?></p>
+<?php endif; ?>
+
 <br><br>
  <a href="./registration.php"><button>Add new Employee</button></a>  
  <br>
- <a href="./logout.php"><button>Log Out</button></a>
 <br>
- <button>Export</button>
+ <a href="./logout.php"><button>Log Out</button></a>
   	</div>
   </div>
 </body>
